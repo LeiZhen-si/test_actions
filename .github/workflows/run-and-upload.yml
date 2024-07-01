@@ -1,0 +1,22 @@
+name: Run Script and Upload Artifacts
+
+on: [push]
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run script and create log
+      run: |
+        ./system_info.sh
+        zip script_and_log.zip system_info.sh system_info.log
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: script-and-log
+        path: script_and_log.zip
