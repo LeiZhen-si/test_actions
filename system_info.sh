@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# 保存日志
+timestamp=$(date +%Y%m%d%H%m)
+echo "Start Running: $timestamp"
+exec > >(tee log_system_info.txt) 2>&1
+
 # 获取系统信息
 echo "System Information:"
 hostnamectl | grep -E 'Operating System|Kernel|Architecture'
@@ -20,9 +25,8 @@ echo "Disk Usage:"
 df -h
 
 # 记录时间戳
-timestamp=$(date +%s)
+timestamp=$(date +%Y%m%d%H%m)
 echo "Timestamp: $timestamp"
 
 # 保存日志
-echo "Saving log with timestamp: $timestamp"
-echo "$(timestamp) - System Information" > log_system_info.log
+echo "End  with timestamp: $timestamp"
