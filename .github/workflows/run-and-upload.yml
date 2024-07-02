@@ -33,9 +33,9 @@ jobs:
       - name: Unpack logs
         run: |
 #          unzip script-and-log.zip  # 解压log文件
-          pwd >> unzip.log
-          ll >> unzip.log
-          tree script-and-log >> unzip.log
+          mkdir -p ~/test
+          pwd 
+          ll
 
 #      - name: Upload unzip logs
 #        uses: actions/upload-artifact@v2
