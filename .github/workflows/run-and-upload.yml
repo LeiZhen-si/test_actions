@@ -30,13 +30,13 @@ jobs:
         with:
           name: script-and-log  # 下载artifacts中的log文件
 
-#      - name: Unpack logs
-#        run: |
+      - name: Unpack logs
+        run: |
 #          unzip script-and-log.zip  # 解压log文件
-#          pwd >> unzip.log
-#          ll >> unzip.log
-#          tree script-and-log >> unzip.log
-#
+          pwd >> unzip.log
+          ll >> unzip.log
+          tree script-and-log >> unzip.log
+
 #      - name: Upload unzip logs
 #        uses: actions/upload-artifact@v2
 #        with:
