@@ -33,6 +33,15 @@ jobs:
       - name: Unpack logs
         run: |
           unzip script-and-log.zip  # 解压log文件
+          pwd >> unzip.log
+          ll >> unzip.log
+          tree script-and-log >> unzip.log
+
+      - name: Upload unzip logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: unzip log
+          path: unzip.log  # 上传压缩后的log文件
 
       - name: Run script on self-hosted runner
         run: |
