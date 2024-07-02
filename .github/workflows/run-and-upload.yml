@@ -36,7 +36,7 @@ jobs:
 
       - name: Run script on self-hosted runner
         run: |
-          ./system_info.sh >> self-hosted_ubuntu.log  # 运行脚本，并将输出追加到log文件
+          ./script_and_log/system_info.sh >> self-hosted_ubuntu.log  # 运行脚本，并将输出追加到log文件
 
       - name: Archive combined logs
         run: |
