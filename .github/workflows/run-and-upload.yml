@@ -34,7 +34,7 @@ jobs:
         run: |  
           pwd
           ls -l
-          unzip /home/user/actions-runner/_work/test_actions/test_actions/script-and-log.zip -d ~/
+          unzip /home/user/actions-runner/_work/test_actions/test_actions/script_and_log.zip -d ~/
           cd ~/
           pwd
           ls -l
