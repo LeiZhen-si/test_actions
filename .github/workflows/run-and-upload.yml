@@ -33,6 +33,7 @@ jobs:
       - name: Unpack logs to a specific directory
         run: |
           mkdir -p ./specific-directory  
+          pwd
 
 #      - name: Upload unzip logs
 #        uses: actions/upload-artifact@v2
