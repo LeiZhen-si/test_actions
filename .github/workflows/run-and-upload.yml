@@ -28,7 +28,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: script-and-log  # 下载artifacts中的log文件
+          name: cloud-log  # 下载artifacts中的log文件
 
       - name: Unpack logs to a specific directory
         run: |  
