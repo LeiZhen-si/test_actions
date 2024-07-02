@@ -13,7 +13,7 @@ jobs:
     - name: Run script and create log
       run: |
         ./system_info.sh > github_ubuntu.log
-        zip script_and_log.zip system_info.sh github_ubuntu.log
+        zip cloud-log.zip system_info.sh github_ubuntu.log
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
@@ -34,7 +34,7 @@ jobs:
         run: |  
           pwd
           ls -l
-          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/script_and_log.zip -d ~/
+          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
           cd ~/
           pwd
           ls -l
