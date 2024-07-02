@@ -3,7 +3,7 @@
 # 保存日志
 timestamp=$(date +%Y%m%d%H%m)
 echo "Start Running: $timestamp"
-exec > >(tee system_info.log) 2>&1
+#exec > >(tee system_info.log) 2>&1
 
 # 获取系统信息
 echo "System Information:"

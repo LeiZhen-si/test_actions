@@ -1,22 +1,50 @@
 name: Run Script and Upload Artifacts
 
-on: [push]
+on: [push, pull_request]  # 触发条件，可以根据需要修改
 
 jobs:
-  run-script:
+  build-and-upload:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2 # 检出代码仓库
 
     - name: Run script and create log
       run: |
-        ./system_info.sh
-        zip script_and_log.zip system_info.sh system_info.log
+        ./system_info.sh > github_ubuntu.log
+        zip script_and_log.zip system_info.sh github_ubuntu.log
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: script-and-log
         path: script_and_log.zip
+
+  self-hosted-runner:
+    runs-on: self-hosted  # 第二步在自托管的runner上运行
+    needs: build-and-upload  # 依赖第一步完成
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: script-and-log  # 下载artifacts中的log文件
+
+      - name: Unpack logs
+        run: |
+          unzip script-and-log.zip  # 解压log文件
+
+      - name: Run script on self-hosted runner
+        run: |
+          ./system_info.sh >> self-hosted_ubuntu.log  # 运行脚本，并将输出追加到log文件
+
+      - name: Archive combined logs
+        run: |
+          zip combined-logs.zip hosted_ubuntu.log script-and-log/github_ubuntu.log  # 将两个log文件合并压缩
+        # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
+
+      - name: Upload combined logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: combined-logs
+          path: combined-logs.zip  # 上传压缩后的log文件
