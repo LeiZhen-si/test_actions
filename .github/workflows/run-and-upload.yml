@@ -38,18 +38,11 @@ jobs:
           cd ~/
           pwd
           ls -l
-          
 
-#      - name: Upload unzip logs
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: unzip log
-#          path: unzip.log  # 上传压缩后的log文件
-#
-#      - name: Run script on self-hosted runner
-#        run: |
-#          ./script_and_log/system_info.sh >> self-hosted_ubuntu.log  # 运行脚本，并将输出追加到log文件
-#
+      - name: Run script on self-hosted runner
+        run: |
+          ./system_info.sh >> self-hosted_ubuntu.log 
+
 #      - name: Archive combined logs
 #        run: |
 #          zip combined-logs.zip hosted_ubuntu.log script-and-log/github_ubuntu.log  # 将两个log文件合并压缩
