@@ -18,8 +18,8 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: script-and-log
-        path: script_and_log.zip
+        name: cloud-log
+        path: cloud-log.zip
 
   self-hosted-runner:
     runs-on: self-hosted  # 第二步在自托管的runner上运行
@@ -50,11 +50,11 @@ jobs:
         run: |
           pwd
           ls -l
-          zip combined-logs.zip self-hosted_ubuntu.log github_ubuntu.log  # 将两个log文件合并压缩
+          zip self-hosted-logs.zip self-hosted_ubuntu.log github_ubuntu.log  # 将两个log文件合并压缩
         # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
 
-      - name: Upload combined logs
+      - name: Upload logs
         uses: actions/upload-artifact@v2
         with:
-          name: combined-logs
-          path: combined-logs.zip  # 上传压缩后的log文件
+          name: self-hosted-logs
+          path: self-hosted-logs.zip  # 上传压缩后的log文件
