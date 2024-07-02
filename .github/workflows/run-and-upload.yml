@@ -41,7 +41,10 @@ jobs:
 
       - name: Run script on self-hosted runner
         run: |
-          ./system_info.sh >> self-hosted_ubuntu.log 
+          cd ~/
+          ./system_info.sh >> ~/self-hosted_ubuntu.log 
+          pwd
+          ls -l
 
 #      - name: Archive combined logs
 #        run: |
