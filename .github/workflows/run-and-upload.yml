@@ -42,13 +42,12 @@ jobs:
       - name: Run script on self-hosted runner
         run: |
           cd ~/
-          ./system_info.sh >> ~/self-hosted_ubuntu-job1.log 
+          ./system_info.sh >> self-hosted_ubuntu-job1.log 
           pwd
           ls -l
 
       - name: Archive combined logs
         run: |
-          cd ~/
           pwd
           ls -l
           zip self-hosted-logs-job1.zip self-hosted_ubuntu-job1.log github_ubuntu.log  # 将两个log文件合并压缩
@@ -80,8 +79,7 @@ jobs:
 
       - name: Run script on self-hosted runner
         run: |
-          cd ~/
-          ./system_info.sh >> ~/self-hosted_ubuntu-job2.log 
+          ./system_info.sh >> self-hosted_ubuntu-job2.log 
           pwd
           ls -l
 #
