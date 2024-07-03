@@ -3,97 +3,96 @@ name: Run Script and Upload Artifacts
 on: [push, pull_request]  # 触发条件，可以根据需要修改
 
 jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2 # 检出代码仓库
+
+    - name: Run script and create log
+      run: |
+        ./system_info.sh > github_ubuntu.log
+        zip cloud-log.zip system_info.sh github_ubuntu.log
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: cloud-log
+        path: cloud-log.zip
   job1:
-    build-and-upload:
-      runs-on: ubuntu-latest
+    name: self hosted runner-job1
+    runs-on: self-hosted  # 第二步在自托管的runner上运行
+    needs: build-and-upload  # 依赖第一步完成
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cloud-log  # 下载artifacts中的log文件
 
-      steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2 # 检出代码仓库
+      - name: Unpack logs to a specific directory
+        run: |  
+          pwd
+          ls -l
+          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
+          cd ~/
+          pwd
+          ls -l
 
-      - name: Run script and create log
+      - name: Run script on self-hosted runner
         run: |
-          ./system_info.sh > github_ubuntu.log
-          zip cloud-log.zip system_info.sh github_ubuntu.log
+          cd ~/
+          ./system_info.sh >> ~/self-hosted_ubuntu-job1.log 
+          pwd
+          ls -l
 
-      - name: Upload artifacts
+      - name: Archive combined logs
+        run: |
+          pwd
+          ls -l
+          zip self-hosted-logs.zip self-hosted_ubuntu-job1.log github_ubuntu.log  # 将两个log文件合并压缩
+        # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
+
+      - name: Upload logs
         uses: actions/upload-artifact@v2
         with:
-          name: cloud-log
-          path: cloud-log.zip
-
-    self-hosted-runner:
-      runs-on: self-hosted  # 第二步在自托管的runner上运行
-      needs: build-and-upload  # 依赖第一步完成
-      steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: cloud-log  # 下载artifacts中的log文件
-
-        - name: Unpack logs to a specific directory
-          run: |  
-            pwd
-            ls -l
-            unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
-            cd ~/
-            pwd
-            ls -l
-
-        - name: Run script on self-hosted runner
-          run: |
-            cd ~/
-            ./system_info.sh >> ~/self-hosted_ubuntu.log 
-            pwd
-            ls -l
-
-        - name: Archive combined logs
-          run: |
-            pwd
-            ls -l
-            zip self-hosted-logs.zip self-hosted_ubuntu.log github_ubuntu.log  # 将两个log文件合并压缩
-          # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
-
-        - name: Upload logs
-          uses: actions/upload-artifact@v2
-          with:
-            name: self-hosted-logs
-            path: self-hosted-logs.zip  # 上传压缩后的log文件
+          name: self-hosted-logs
+          path: self-hosted-logs.zip  # 上传压缩后的log文件
   job2:
-    self-hosted-runner-job2:
-      runs-on: self-hosted  # 第二步在自托管的runner上运行
-      needs: build-and-upload  # 依赖第一步完成
-      steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: cloud-log  # 下载artifacts中的log文件
+    name: self hosted runner-job2
+    runs-on: self-hosted  # 第二步在自托管的runner上运行
+    needs: build-and-upload  # 依赖第一步完成
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cloud-log  # 下载artifacts中的log文件
 
-        - name: Unpack logs to a specific directory
-          run: |
-            pwd
-            ls -l
-            unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
-            cd ~/
-            pwd
-            ls -l
+      - name: Unpack logs to a specific directory
+        run: |
+          pwd
+          ls -l
+          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
+          cd ~/
+          pwd
+          ls -l
 
-        - name: Run script on self-hosted runner
-          run: |
-            cd ~/
-            ./system_info.sh >> ~/self-hosted_ubuntu.log 
-            pwd
-            ls -l
+      - name: Run script on self-hosted runner
+        run: |
+          cd ~/
+          ./system_info.sh >> ~/self-hosted_ubuntu-job2.log 
+          pwd
+          ls -l
 
-        - name: Archive combined logs
-          run: |
-            pwd
-            ls -l
-            zip self-hosted-logs.zip self-hosted_ubuntu.log github_ubuntu.log  # 将两个log文件合并压缩
-          # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
+      - name: Archive combined logs
+        run: |
+          pwd
+          ls -l
+          zip self-hosted-logs.zip self-hosted_ubuntu-job2.log github_ubuntu.log  # 将两个log文件合并压缩
+        # 注意：这里假设logs目录结构是正确的，如果需要调整，可以在运行脚本前进行
 
-        - name: Upload logs
-          uses: actions/upload-artifact@v2
-          with:
-            name: self-hosted-logs
-            path: self-hosted-logs.zip  # 上传压缩后的log文件
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: self-hosted-logs
+          path: self-hosted-logs.zip  # 上传压缩后的log文件
