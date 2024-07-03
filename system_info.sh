@@ -18,7 +18,7 @@ echo "Memory Information:"
 free -h
 
 # 休眠一段时间，确保脚本运行时间在1分钟左右
-sleep 360
+sleep 6
 
 # 获取磁盘使用情况
 echo "Disk Usage:"
