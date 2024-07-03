@@ -48,6 +48,7 @@ jobs:
 
       - name: Archive combined logs
         run: |
+          cd ~/
           pwd
           ls -l
           zip self-hosted-logs-job1.zip self-hosted_ubuntu-job1.log github_ubuntu.log  # 将两个log文件合并压缩
