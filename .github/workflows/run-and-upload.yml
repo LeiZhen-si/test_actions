@@ -34,7 +34,7 @@ jobs:
         run: |  
           pwd
           ls -l
-          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
+          unzip -o -q /home/user1/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
           cd ~/
           pwd
           ls -l
@@ -72,7 +72,7 @@ jobs:
         run: |
           pwd
           ls -l
-          unzip -o -q /home/user/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
+          unzip -o -q /home/user1/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
           cd ~/
           pwd
           ls -l
