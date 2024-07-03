@@ -22,7 +22,7 @@ jobs:
           name: cloud-log
           path: cloud-log.zip
 
-    self-hosted-runner-job1:
+    self-hosted-runner:
       runs-on: self-hosted  # 第二步在自托管的runner上运行
       needs: build-and-upload  # 依赖第一步完成
       steps:
