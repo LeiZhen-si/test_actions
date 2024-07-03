@@ -54,40 +54,40 @@ jobs:
         with:
           name: self-hosted-logs-job1
           path: self-hosted-logs-job1.zip  # 上传压缩后的log文件
-#  job2:
-#    name: self hosted runner-job2
-#    runs-on: self-hosted  # 第二步在自托管的runner上运行
-#    needs: build-and-upload  # 依赖第一步完成
-#    steps:
-#      - name: Download artifact
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: cloud-log  # 下载artifacts中的log文件
-#
-#      - name: Unpack logs to a specific directory
-#        run: |
-#          pwd
-#          ls -l
-#          unzip -o -q /home/user1/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
-#          cd ~/
-#          pwd
-#          ls -l
-#
-#      - name: Run script on self-hosted runner
-#        run: |
-#          ./system_info.sh >> self-hosted_ubuntu-job2.log
-#          pwd
-#          ls -l
-#
-#      - name: Archive combined logs
-#        run: |
-#          cd ~/
-#          pwd
-#          ls -l
-#          zip self-hosted-logs-job2.zip self-hosted_ubuntu-job2.log github_ubuntu.log  # 将两个log文件合并压缩
-#
-#      - name: Upload logs
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: self-hosted-logs
-#          path: self-hosted_ubuntu-job2.log  # 上传压缩后的log文件
+  job2:
+    name: self hosted runner-job2
+    runs-on: self-hosted  # 第二步在自托管的runner上运行
+    needs: build-and-upload  # 依赖第一步完成
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cloud-log  # 下载artifacts中的log文件
+
+      - name: Unpack logs to a specific directory
+        run: |
+          pwd
+          ls -l
+          unzip -o -q /home/user1/actions-runner/_work/test_actions/test_actions/cloud-log.zip -d ~/
+          cd ~/
+          pwd
+          ls -l
+
+      - name: Run script on self-hosted runner
+        run: |
+          ./system_info.sh >> self-hosted_ubuntu-job2.log
+          pwd
+          ls -l
+
+      - name: Archive combined logs
+        run: |
+          cd ~/
+          pwd
+          ls -l
+          zip self-hosted-logs-job2.zip self-hosted_ubuntu-job2.log github_ubuntu.log  # 将两个log文件合并压缩
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: self-hosted-logs-job2
+          path: self-hosted_ubuntu-job2.log  # 上传压缩后的log文件
